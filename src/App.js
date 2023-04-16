@@ -1,37 +1,87 @@
 import React, { useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import { Box, Paper } from '@mui/material';
 import ActSelection from './components/ActSelection';
-import { CssBaseline, Container, Typography, Box, ThemeProvider, Button } from '@mui/material';
-import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import Footer from './components/Footer';
+
+const lightTheme = createTheme({
+    palette: {
+        mode: 'light',
+        primary: {
+            main: '#2b5876',
+        },
+        secondary: {
+            main: '#f0f0f0',
+        },
+        background: {
+            default: '#f0f0f0',
+        },
+        text: {
+            primary: '#333333',
+        },
+    },
+});
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: '#090909',
+        },
+        secondary: {
+            main: '#1c1c1c',
+        },
+        background: {
+            default: '#1c1c1c',
+        },
+        text: {
+            primary: '#f0f0f0',
+        },
+    },
+});
 
 function App() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
 
-    const theme = createTheme({
-        palette: {
-            mode: isDarkMode ? 'dark' : 'light',
-        },
-    });
-
-    const handleDarkModeToggle = () => {
-        setIsDarkMode((prevMode) => !prevMode);
+    const handleThemeChange = () => {
+        setDarkMode(!darkMode);
     };
 
-
     return (
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <CssBaseline />
-            <Container maxWidth="md">
-                <Box my={4}>
-                    <Typography variant="h2" component="h1" align="center" gutterBottom>
-                        Prompt Generator
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
+                <Typography component="span" sx={{ mr: 1 }}>
+                    Light
+                </Typography>
+                <Switch checked={darkMode} onChange={handleThemeChange} />
+                <Typography component="span" sx={{ ml: 1 }}>
+                    Dark
+                </Typography>
+            </Box>
+            <Container maxWidth="md" sx={{ py: 4 }}>
+                <Paper
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        px: 2,
+                        py: 1,
+                        mb: 2,
+                    }}
+                >
+                    <Typography variant="h2" component="h1">
+                        Act Selector
                     </Typography>
-                    <Button variant="contained" onClick={handleDarkModeToggle}>
-                        {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                    </Button>
-                    <ActSelection />
-                </Box>
+                </Paper>
+                <ActSelection />
             </Container>
-        </MuiThemeProvider>
+            <Footer />
+        </ThemeProvider>
     );
 }
 

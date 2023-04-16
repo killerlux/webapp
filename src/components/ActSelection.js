@@ -14,7 +14,10 @@ const ActSelection = () => {
                 }
                 return res.json();
             })
-            .then((data) => setActs(data))
+            .then((data) => {
+                const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
+                setActs(sortedData);
+            })
             .catch((error) => setError(error.message));
     }, []);
 
@@ -29,11 +32,14 @@ const ActSelection = () => {
     }
 
     return (
-        <Box>
-            <Typography variant="h4" component="h2" gutterBottom>
-                Select a role...
-            </Typography>
-            <ActList acts={acts} />
+            <Box>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Select a role...
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+
+                <ActList acts={acts} />
+            </Box>
         </Box>
     );
 };

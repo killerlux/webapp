@@ -9,6 +9,7 @@ import {
     DialogContentText,
     DialogActions,
     Button,
+    Grid,
 } from '@mui/material';
 
 const ActList = ({ acts }) => {
@@ -26,13 +27,23 @@ const ActList = ({ acts }) => {
 
     return (
         <div>
-            <List>
-                {acts.map((act) => (
-                    <ListItem button key={act.id} onClick={() => handleClickOpen(act)}>
-                        <ListItemText primary={act.title} />
-                    </ListItem>
+            <Grid container spacing={2}>
+                {acts.map((act, index) => (
+                    <Grid item xs={12} sm={6} md={3} key={act.id}>
+                        <ListItem
+                            button
+                            onClick={() => handleClickOpen(act)}
+                            sx={{
+                                width: '100%',
+                                justifyContent: 'center',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <ListItemText primary={act.title} />
+                        </ListItem>
+                    </Grid>
                 ))}
-            </List>
+            </Grid>
             {selectedAct && (
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>{selectedAct.title}</DialogTitle>
